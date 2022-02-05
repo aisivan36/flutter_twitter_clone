@@ -117,7 +117,7 @@ class ComposeTweetState extends ChangeNotifier {
       if (serverToken != null && serverToken!.isNotEmpty) {
         return Future.value(null);
       }
-      final RemoteConfig remoteConfig = RemoteConfig.instance;
+      final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
       // await remoteConfig.fetch(expiration: const Duration(hours: 5));
       // await remoteConfig.activateFetched();
       var data = remoteConfig.getString('FcmServerKey');

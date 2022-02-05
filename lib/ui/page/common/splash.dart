@@ -12,7 +12,7 @@ import 'package:flutter_twitter_clone/ui/page/Auth/selectAuthMethod.dart';
 import 'package:flutter_twitter_clone/ui/page/common/updateApp.dart';
 import 'package:flutter_twitter_clone/ui/page/homePage.dart';
 import 'package:flutter_twitter_clone/ui/theme/theme.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 class SplashPage extends StatefulWidget {
@@ -58,10 +58,14 @@ class _SplashPageState extends State<SplashPage> {
 
     if (config != null &&
         config['name'] == currentAppVersion &&
-        config['versions'].contains(int.tryParse(buildNo))) {
+        config['versions'].containsKey(int.tryParse(buildNo))) {
       return true;
     } else {
       if (kDebugMode) {
+        print('Debug $buildNo');
+        print('Debug $config');
+        print('Debug $currentAppVersion');
+        print('DebugConfig ${config?['versions']}');
         cprint("Latest version of app is not installed on your system");
         cprint(
             "This is for testing purpose only. In debug mode update screen will not be open up");
@@ -92,11 +96,14 @@ class _SplashPageState extends State<SplashPage> {
   /// After adding app version key click on Publish Change button
   /// For package detail check:-  https://pub.dev/packages/firebase_remote_config#-readme-tab-
   Future<Map?> _getAppVersionFromFirebaseConfig() async {
-    final RemoteConfig remoteConfig = RemoteConfig.instance;
+    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
     await remoteConfig.fetchAndActivate();
     // await remoteConfig.activateFetched();
     var data = remoteConfig.getString('supportedBuild');
     if (data.isNotEmpty) {
+      if (kDebugMode) {
+        print(data);
+      }
       return jsonDecode(data) as Map;
     } else {
       cprint(

@@ -82,7 +82,7 @@ class ChatState extends AppState {
   /// For more detail visit:- https://github.com/TheAlphamerc/flutter_twitter_clone/issues/28#issue-611695533
   /// For package detail check:-  https://pub.dev/packages/firebase_remote_config#-readme-tab-
   void getFCMServerKey() async {
-    final RemoteConfig remoteConfig = RemoteConfig.instance;
+    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
     await remoteConfig.fetchAndActivate();
     // await remoteConfig.
     var data = remoteConfig.getString('FcmServerKey');
